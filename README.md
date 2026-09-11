@@ -4,6 +4,8 @@ Official plugins and addons monorepo for **[Bot Crossing](https://github.com/Bee
 
 This monorepo houses official plugins that extend the Colony simulation with new structures, security features, telemetry displays, and integrations.
 
+![Colony Depot & Plugin Store](docs/assets/colony-depot.jpg)
+
 ---
 
 ## 📦 Packages
