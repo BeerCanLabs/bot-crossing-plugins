@@ -104,6 +104,19 @@ test('Music Plugin: Classic Games track library constraints (< 2 mins each)', ()
     marioTrack.notes.length >= 150,
     `Mario Overworld must be full sequence (>150 notes), got: ${marioTrack.notes.length}`
   )
+
+  // Verify all 15 tracks have rich, full multi-measure sequences (no short 4-sec motifs)
+  assert.equal(CLASSIC_TRACKS.length, 15, 'Must have 15 classic game tracks')
+  for (const track of CLASSIC_TRACKS) {
+    assert.ok(
+      track.notes.length >= 30,
+      `Track ${track.id} must have at least 30 notes for a full theme loop, got: ${track.notes.length}`
+    )
+    assert.ok(
+      track.bass && track.bass.length >= 8,
+      `Track ${track.id} must have rich bassline, got: ${track.bass?.length}`
+    )
+  }
 })
 
 test('Music Plugin: Client scripts have no bare specifiers or server imports', async () => {
@@ -162,4 +175,25 @@ test('Music Plugin: Tower positioning and grounding formula validation', async (
     assert.doesNotMatch(code, /p\.radius\s*\|\|\s*35/, `${name} must not use broken sphere formula`)
   }
 })
+
+test('Music & RBAC UI: Drawer tab clearing controls and RBAC pill center-top dismissible', async () => {
+  const cssCode = await fsp.readFile(
+    path.join(process.cwd(), 'packages/music/client/styles.css'),
+    'utf8'
+  )
+  // Drawer tab must be raised to top: 76px to not overlap .rail controls
+  assert.match(cssCode, /top:\s*76px;/, 'styles.css must position .music-drawer-tab at top: 76px')
+  assert.doesNotMatch(cssCode, /top:\s*48%;/, 'styles.css must not position tab in the middle where .rail sits')
+
+  const rbacCode = await fsp.readFile(
+    path.join(process.cwd(), 'packages/rbac/client/index.js'),
+    'utf8'
+  )
+  // RBAC pill must be centered at top, away from top-right controls
+  assert.match(rbacCode, /left:\s*50%;/, 'RBAC badge must be centered at left: 50%')
+  assert.match(rbacCode, /translateX\(-50%\)/, 'RBAC badge must use translateX(-50%)')
+  assert.match(rbacCode, /colony-rbac-dismiss/, 'RBAC badge must have dismiss button')
+  assert.match(rbacCode, /colony-rbac-dismissed/, 'RBAC badge must support dismissal persistence')
+})
+
 
