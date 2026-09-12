@@ -97,9 +97,13 @@ test('Music Plugin: Classic Games track library constraints (< 2 mins each)', ()
 
   // Verify Zelda and Mario are present
   const hasZelda = CLASSIC_TRACKS.some((t) => t.game.toLowerCase().includes('zelda'))
-  const hasMario = CLASSIC_TRACKS.some((t) => t.game.toLowerCase().includes('mario'))
+  const marioTrack = CLASSIC_TRACKS.find((t) => t.id === 'mario-overworld')
   assert.ok(hasZelda, 'Classic playlist must contain Zelda')
-  assert.ok(hasMario, 'Classic playlist must contain Mario')
+  assert.ok(marioTrack, 'Classic playlist must contain Mario')
+  assert.ok(
+    marioTrack.notes.length >= 150,
+    `Mario Overworld must be full sequence (>150 notes), got: ${marioTrack.notes.length}`
+  )
 })
 
 test('Music Plugin: Client scripts have no bare specifiers or server imports', async () => {
