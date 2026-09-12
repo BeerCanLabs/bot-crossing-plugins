@@ -29,6 +29,12 @@ function setupRbacBadgeEnhancer() {
     const badge = document.getElementById('colony-rbac-badge')
     if (!badge) return
 
+    badge.style.setProperty('top', '12px', 'important')
+    badge.style.setProperty('left', '50%', 'important')
+    badge.style.setProperty('right', 'auto', 'important')
+    badge.style.setProperty('transform', 'translateX(-50%)', 'important')
+    badge.style.setProperty('z-index', '9999', 'important')
+
     if (sessionStorage.getItem('colony-rbac-dismissed') === '1') {
       badge.style.display = 'none'
       badge.classList.add('dismissed')
