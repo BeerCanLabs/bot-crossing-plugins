@@ -19,6 +19,65 @@ function injectStyles() {
   link.rel = 'stylesheet'
   link.href = '/plugins/music/client/styles.css'
   document.head.appendChild(link)
+  setupRbacBadgeEnhancer()
+}
+
+function setupRbacBadgeEnhancer() {
+  if (typeof document === 'undefined') return
+
+  const enhance = () => {
+    const badge = document.getElementById('colony-rbac-badge')
+    if (!badge) return
+
+    if (sessionStorage.getItem('colony-rbac-dismissed') === '1') {
+      badge.style.display = 'none'
+      badge.classList.add('dismissed')
+      return
+    }
+
+    if (!badge.querySelector('#colony-rbac-dismiss')) {
+      const dismissBtn = document.createElement('button')
+      dismissBtn.id = 'colony-rbac-dismiss'
+      dismissBtn.title = 'Hide identity pill'
+      dismissBtn.textContent = '✕'
+      dismissBtn.style.cssText = `
+        background: transparent;
+        border: none;
+        color: #8892b0;
+        font-size: 11px;
+        line-height: 1;
+        margin-left: 6px;
+        cursor: pointer;
+        padding: 2px 4px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.15s ease, background 0.15s ease;
+      `
+      dismissBtn.addEventListener('mouseenter', () => {
+        dismissBtn.style.color = '#fff'
+        dismissBtn.style.background = 'rgba(255,255,255,0.15)'
+      })
+      dismissBtn.addEventListener('mouseleave', () => {
+        dismissBtn.style.color = '#8892b0'
+        dismissBtn.style.background = 'transparent'
+      })
+      dismissBtn.addEventListener('click', (e) => {
+        e.stopPropagation()
+        badge.classList.add('dismissed')
+        sessionStorage.setItem('colony-rbac-dismissed', '1')
+        setTimeout(() => {
+          badge.style.display = 'none'
+        }, 220)
+      })
+      badge.appendChild(dismissBtn)
+    }
+  }
+
+  enhance()
+  const interval = setInterval(enhance, 1000)
+  setTimeout(() => clearInterval(interval), 15000)
 }
 
 let _threePromise = null

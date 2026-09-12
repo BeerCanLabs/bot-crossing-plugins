@@ -45,6 +45,23 @@
   color: #8da4be;
 }
 
+/* ── RBAC User Identity Pill Centering & Dismiss ── */
+#colony-rbac-badge {
+  top: 12px !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+  z-index: 9999 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 10px rgba(0, 229, 255, 0.15) !important;
+  transition: opacity 0.2s ease, transform 0.2s ease !important;
+}
+
+#colony-rbac-badge.dismissed {
+  opacity: 0 !important;
+  transform: translateX(-50%) translateY(-8px) !important;
+  pointer-events: none !important;
+}
+
 /* Sliding Drawer */
 .music-drawer {
   position: fixed;
