@@ -137,3 +137,25 @@ test('Music Plugin: Client scripts have no bare specifiers or server imports', a
     )
   }
 })
+
+test('Music Plugin: Tower positioning and grounding formula validation', async () => {
+  const towerCode = await fsp.readFile(
+    path.join(process.cwd(), 'packages/music/client/tower.js'),
+    'utf8'
+  )
+  const indexCode = await fsp.readFile(
+    path.join(process.cwd(), 'packages/music/client/index.js'),
+    'utf8'
+  )
+
+  for (const [name, code] of [['tower.js', towerCode], ['index.js', indexCode]]) {
+    // Offset behind spaceship should be snug ~3.4 units, NOT 6.2
+    assert.match(code, /multiplyScalar\(3\.4\)/, `${name} must position tower 3.4 units behind ship`)
+    assert.doesNotMatch(code, /multiplyScalar\(6\.2\)/, `${name} must not use old 6.2 offset`)
+
+    // Must sample terrain elevation using heightAt or raycasting, NOT hardcoded 35 sphere radius
+    assert.match(code, /heightAt\(this\.position\.x,\s*this\.position\.z\)/, `${name} must use terrain heightAt`)
+    assert.doesNotMatch(code, /p\.radius\s*\|\|\s*35/, `${name} must not use broken sphere formula`)
+  }
+})
+
