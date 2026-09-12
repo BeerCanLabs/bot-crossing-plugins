@@ -101,3 +101,39 @@ test('Music Plugin: Classic Games track library constraints (< 2 mins each)', ()
   assert.ok(hasZelda, 'Classic playlist must contain Zelda')
   assert.ok(hasMario, 'Classic playlist must contain Mario')
 })
+
+test('Music Plugin: Client scripts have no bare specifiers or server imports', async () => {
+  const clientDir = path.join(process.cwd(), 'packages/music/client')
+  const files = await fsp.readdir(clientDir)
+  const jsFiles = files.filter((f) => f.endsWith('.js'))
+
+  for (const f of jsFiles) {
+    const code = await fsp.readFile(path.join(clientDir, f), 'utf8')
+
+    // Must not have bare imports like import ... from 'three'
+    assert.equal(
+      /from\s+['"]three['"]/.test(code),
+      false,
+      `File ${f} contains bare import from 'three'`
+    )
+
+    // Must not have CSS import in JS
+    assert.equal(
+      /import\s+['"].*\.css['"]/.test(code),
+      false,
+      `File ${f} contains direct CSS import`
+    )
+
+    // Must not import server files or node: built-ins
+    assert.equal(
+      /from\s+['"].*\/server\/.*['"]/.test(code),
+      false,
+      `File ${f} imports server module`
+    )
+    assert.equal(
+      /from\s+['"]node:.*['"]/.test(code),
+      false,
+      `File ${f} imports node: built-in`
+    )
+  }
+})

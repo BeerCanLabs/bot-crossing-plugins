@@ -1,38 +1,44 @@
-import * as THREE from 'three'
 import { ChiptuneEngine } from './classic-synth.js'
 
 export class AudioEngine {
-  constructor(camera, towerObject) {
+  constructor(THREE, camera, towerObject) {
+    this.THREE = THREE || (typeof window !== 'undefined' ? window.THREE : null)
     this.camera = camera
     this.towerObject = towerObject
     this.mode = 'spatial' // 'spatial' | 'ambient'
     this.volume = 0.65
     this.muted = false
 
-    // Initialize Web Audio Context
+    const T = this.THREE
+
+    // Three.js 3D Positional Audio
+    if (T && T.AudioListener) {
+      try {
+        this.listener = new T.AudioListener()
+        if (this.camera) {
+          this.camera.add(this.listener)
+        }
+        this.positionalAudio = new T.PositionalAudio(this.listener)
+        this.positionalAudio.setRefDistance(10)
+        this.positionalAudio.setMaxDistance(60)
+        this.positionalAudio.setRolloffFactor(1.4)
+        this.positionalAudio.setDistanceModel('exponential')
+        if (this.towerObject) {
+          this.towerObject.add(this.positionalAudio)
+        }
+      } catch (err) {
+        console.warn('[ColonySound] PositionalAudio setup warning:', err)
+      }
+    }
+
+    // Initialize Web Audio Context (share listener context if available)
     const AudioContextClass = window.AudioContext || window.webkitAudioContext
-    this.ctx = new AudioContextClass()
+    this.ctx = (this.listener && this.listener.context) || new AudioContextClass()
 
     // Master ambient gain node
     this.ambientGain = this.ctx.createGain()
     this.ambientGain.gain.value = this.volume
     this.ambientGain.connect(this.ctx.destination)
-
-    // Three.js 3D Positional Audio
-    this.listener = new THREE.AudioListener()
-    if (this.camera) {
-      this.camera.add(this.listener)
-    }
-
-    this.positionalAudio = new THREE.PositionalAudio(this.listener)
-    this.positionalAudio.setRefDistance(10)
-    this.positionalAudio.setMaxDistance(60)
-    this.positionalAudio.setRolloffFactor(1.4)
-    this.positionalAudio.setDistanceModel('exponential')
-
-    if (this.towerObject) {
-      this.towerObject.add(this.positionalAudio)
-    }
 
     // Node that switches between ambient & spatial
     this.inputRouter = this.ctx.createGain()

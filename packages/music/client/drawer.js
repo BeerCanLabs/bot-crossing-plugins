@@ -1,4 +1,29 @@
-import { SPOTIFY_PRESETS } from '../server/middleware.js'
+export const SPOTIFY_PRESETS = [
+  {
+    id: 'retro-gaming',
+    name: 'Retro Gaming Classics',
+    uri: 'playlist/37i9dQZF1DXdfO26u3IRSZ',
+    description: 'Chiptune, 8-bit & 16-bit arcade and console nostalgia',
+  },
+  {
+    id: 'nintendo-chill',
+    name: 'Nintendo & Video Game Lo-Fi',
+    uri: 'playlist/37i9dQZF1DXdLEN7aqioXM',
+    description: 'Relaxed ambient game beats and chill vibes for colony building',
+  },
+  {
+    id: 'epic-symphony',
+    name: 'Video Game Symphony',
+    uri: 'playlist/37i9dQZF1DWV7cv92d5kpx',
+    description: 'Full orchestral game anthems (Zelda, Mario, Skyrim, Halo)',
+  },
+  {
+    id: 'cyberpunk-gaming',
+    name: 'Synthwave & Cyberpunk Gaming',
+    uri: 'playlist/37i9dQZF1DXdLEN7aqioXM',
+    description: 'Dark synth, futuristic bass and electronic pulses',
+  },
+]
 
 export class MusicDrawer {
   constructor(audioEngine, onModeChange) {

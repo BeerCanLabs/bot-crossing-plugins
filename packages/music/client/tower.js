@@ -1,5 +1,3 @@
-import * as THREE from 'three'
-
 /**
  * 3D Power Antenna & Speaker Tower for Bot Crossing.
  *
@@ -22,13 +20,15 @@ const SPEAKER_CONE = 0x111317
 const BEACON_COLOR = 0xff5533
 
 export class AntennaTower {
-  constructor(scene, shipPos, planet, onClick) {
+  constructor(THREE, scene, shipPos, planet, onClick) {
+    this.THREE = THREE || (typeof window !== 'undefined' ? window.THREE : null)
+    const T = this.THREE
     this.scene = scene
     this.shipPos = shipPos
     this.planet = planet
     this.onClick = onClick
 
-    this.group = new THREE.Group()
+    this.group = new T.Group()
     this.group.name = 'antenna-speaker-tower'
     scene.add(this.group)
 
@@ -41,9 +41,12 @@ export class AntennaTower {
   }
 
   _calculatePosition() {
+    const THREE = this.THREE
     // Ship is located at shipPos and faces inward toward (0,0,0).
     // "Behind the spaceship" is outward away from colony center.
-    const outwardDir = this.shipPos.clone().normalize()
+    const outwardDir = (this.shipPos && (this.shipPos.x !== 0 || this.shipPos.z !== 0))
+      ? this.shipPos.clone().normalize()
+      : new THREE.Vector3(0, 0, 1)
     // Offset 6.2 units directly behind the ship hull in the dirt
     this.position = new THREE.Vector3().addVectors(
       this.shipPos,
@@ -68,6 +71,7 @@ export class AntennaTower {
   }
 
   _buildMesh() {
+    const THREE = this.THREE
     const metalMat = new THREE.MeshStandardMaterial({
       color: METAL_FRAME,
       roughness: 0.35,
@@ -212,6 +216,7 @@ export class AntennaTower {
   setHover(hovered) {
     if (this.hovered === hovered) return
     this.hovered = hovered
+    const THREE = this.THREE
     for (const m of this.materials) {
       if (m === this.beaconMat) continue
       if (hovered) {
