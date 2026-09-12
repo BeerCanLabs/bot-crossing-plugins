@@ -46,11 +46,11 @@ export class AntennaTower {
     // "Behind the spaceship" is outward away from colony center.
     const outwardDir = (this.shipPos && (this.shipPos.x !== 0 || this.shipPos.z !== 0))
       ? this.shipPos.clone().normalize()
-      : new THREE.Vector3(0, 0, 1)
-    // Offset 6.2 units directly behind the ship hull in the dirt
+      : new THREE.Vector3(-1, 0, 0)
+    // Snug offset ~3.4 units directly behind the spaceship hull (just behind rear engine bells & landing legs)
     this.position = new THREE.Vector3().addVectors(
       this.shipPos,
-      outwardDir.clone().multiplyScalar(6.2)
+      outwardDir.clone().multiplyScalar(3.4)
     )
     this.group.position.copy(this.position)
 
@@ -59,15 +59,34 @@ export class AntennaTower {
   }
 
   _positionOnTerrain() {
-    // Bot Crossing planet terrain elevation lookup
     let y = 0
-    if (window.botCrossing?.colony?.planet) {
-      const p = window.botCrossing.colony.planet
-      // Approximate terrain curvature or flat regolith
-      const r = Math.sqrt(this.position.x * this.position.x + this.position.z * this.position.z)
-      y = Math.max(0, (p.radius || 35) - Math.sqrt(Math.max(0, (p.radius || 35) ** 2 - r * r)) * 0.2)
+    const bc = typeof window !== 'undefined' ? window.botCrossing : null
+    const colony = bc?.colony
+
+    // 1. Exact height sampler from terrain mesh
+    if (colony?.terrain?.userData?.heightAt) {
+      y = colony.terrain.userData.heightAt(this.position.x, this.position.z)
+    } else if (colony?.ship?.group?.position?.y !== undefined) {
+      y = colony.ship.group.position.y
     }
-    this.group.position.y = y
+
+    // 2. Physical raycast straight down against terrain mesh geometry
+    if (colony?.terrain && this.THREE) {
+      try {
+        const THREE = this.THREE
+        const rayOrigin = new THREE.Vector3(this.position.x, 50, this.position.z)
+        const rayDir = new THREE.Vector3(0, -1, 0)
+        const raycaster = new THREE.Raycaster(rayOrigin, rayDir)
+        const hits = raycaster.intersectObject(colony.terrain, true)
+        if (hits.length > 0) {
+          y = hits[0].point.y
+        }
+      } catch {}
+    }
+
+    // Seat firmly into ground with footpads planted in regolith
+    this.position.y = y - 0.04
+    this.group.position.y = this.position.y
   }
 
   _buildMesh() {
