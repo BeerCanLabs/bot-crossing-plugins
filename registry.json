@@ -1,0 +1,59 @@
+{
+  "catalog": [
+    {
+      "id": "agent-cards",
+      "name": "Custom Agent Cards",
+      "version": "1.0.0",
+      "description": "Enhanced astronaut inspection cards featuring interactive agent chat, per-agent cron routine inspection with manual run triggers, and direct backlog/task management.",
+      "author": "BeerCanLabs",
+      "category": "agent-interface",
+      "icon": "🪪",
+      "package": "@beercanlabs/bot-crossing-agent-cards",
+      "clientScript": "client/index.js",
+      "repo": "https://github.com/BeerCanLabs/bot-crossing-plugins/tree/main/packages/agent-cards"
+    },
+    {
+      "id": "billboard",
+      "name": "Task Board Billboard",
+      "version": "1.0.0",
+      "description": "Procedural 3D billboard next to the spaceship tracking active tasks from Notion, GitHub, Jira, and Linear.",
+      "category": "world-structure",
+      "icon": "📋",
+      "author": "BeerCanLabs",
+      "entry": {
+        "server": "./index.js",
+        "client": "./client/inject.js"
+      },
+      "repo": "https://github.com/BeerCanLabs/bot-crossing-plugins/tree/main/packages/billboard"
+    },
+    {
+      "id": "music",
+      "name": "Colony Sound System",
+      "version": "1.0.0",
+      "description": "Sound and broadcast tower for the colony featuring a 3D power antenna behind the spaceship, dual-mode 3D spatial/ambient audio, Classic Games chiptunes (<2m shuffle), and Spotify embed player in a slide-out drawer.",
+      "category": "audio",
+      "icon": "📻",
+      "author": "BeerCanLabs",
+      "entry": {
+        "server": "./index.js",
+        "client": "./client/index.js"
+      },
+      "repo": "https://github.com/BeerCanLabs/bot-crossing-plugins/tree/main/packages/music"
+    },
+    {
+      "id": "rbac",
+      "name": "Role-Based Access Control",
+      "version": "1.0.0",
+      "description": "Enterprise multi-user access control supporting Admin, Agent Manager, and Spectator roles with Cloudflare Zero Trust and pluggable AuthN.",
+      "category": "security",
+      "icon": "🛡️",
+      "author": "BeerCanLabs",
+      "entry": {
+        "server": "./index.js",
+        "client": "./client/index.js"
+      },
+      "repo": "https://github.com/BeerCanLabs/bot-crossing-plugins/tree/main/packages/rbac"
+    }
+  ],
+  "updatedAt": "2026-09-12T18:55:58.908Z"
+}

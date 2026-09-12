@@ -6,8 +6,10 @@
   "workspaces": [
     "packages/*"
   ],
+  "type": "module",
   "scripts": {
-    "test": "node --test \"test/**/*.test.mjs\""
+    "test": "node --test \"test/**/*.test.mjs\"",
+    "build:registry": "node tools/build-registry.js"
   },
   "keywords": [
     "bot-crossing",
