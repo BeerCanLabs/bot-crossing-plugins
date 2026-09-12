@@ -249,6 +249,13 @@ export class AntennaTower {
   }
 
   tick(timeSec, isPlaying = false) {
+    // Keep firmly grounded if terrain loads or changes
+    if (!this._grounded || (Math.floor(timeSec) % 2 === 0 && Math.abs(timeSec - (this._lastCheck || 0)) > 1)) {
+      this._lastCheck = timeSec
+      this._positionOnTerrain()
+      if (this.group.position.y < 1.0) this._grounded = true
+    }
+
     if (!this.beaconMat) return
 
     // Pulse beacon light: rapid pulse when music is playing, slow warning strobe when idle
