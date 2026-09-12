@@ -1,0 +1,31 @@
+{
+  "name": "@beercanlabs/bot-crossing-music",
+  "version": "1.0.0",
+  "description": "Colony Sound System: 3D power antenna speaker tower, dual-mode 3D spatial & ambient audio, Classic Games chiptunes, and Spotify embed player in a slide-out drawer.",
+  "main": "index.js",
+  "type": "module",
+  "license": "MIT",
+  "author": "BeerCanLabs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BeerCanLabs/bot-crossing-plugins.git"
+  },
+  "keywords": [
+    "bot-crossing",
+    "bot-crossing-plugin",
+    "threejs",
+    "web-audio",
+    "spatial-audio",
+    "chiptune",
+    "spotify",
+    "music-player"
+  ],
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client/index.js",
+    "./*": "./*"
+  },
+  "peerDependencies": {
+    "three": ">=0.160.0"
+  }
+}

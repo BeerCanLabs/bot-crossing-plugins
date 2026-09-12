@@ -1,0 +1,13 @@
+{
+  "id": "music",
+  "name": "Colony Sound System",
+  "version": "1.0.0",
+  "description": "Sound and broadcast tower for the colony featuring a 3D power antenna behind the spaceship, dual-mode 3D spatial/ambient audio, Classic Games chiptunes (<2m shuffle), and Spotify embed player in a slide-out drawer.",
+  "category": "audio",
+  "icon": "📻",
+  "author": "BeerCanLabs",
+  "entry": {
+    "server": "./index.js",
+    "client": "./client/index.js"
+  }
+}

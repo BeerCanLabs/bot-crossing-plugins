@@ -13,6 +13,8 @@ This monorepo houses official plugins that extend the Colony simulation with new
 | Package | Description | Status |
 | :--- | :--- | :--- |
 | **[`@beercanlabs/bot-crossing-billboard`](packages/billboard)** | 3D Task Board Billboard & Work Tracker (Notion, GitHub, Jira, Linear, Paperclip) | Active |
+| **[`@beercanlabs/bot-crossing-music`](packages/music)** | Colony Sound System: 3D Antenna Tower, Spatial/Ambient Audio, Classic Chiptunes & Spotify | Active |
+| **[`@beercanlabs/bot-crossing-agent-cards`](packages/agent-cards)** | Interactive Agent Cards with Live Chat, Cron Execution & Task Management | Active |
 | **[`@beercanlabs/bot-crossing-rbac`](packages/rbac)** | Role-Based Access Control (Admin, Agent Manager, Spectator) with Pluggable AuthN | Active |
 
 ---

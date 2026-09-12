@@ -31,3 +31,14 @@ This document maps all plugin packages within **BeerCanLabs / bot-crossing-plugi
   - Package: `packages/billboard/index.js`, `packages/billboard/client/index.js`
 - **If it silently breaks:** Billboard 3D mesh fails to render on the colony canvas or task aggregation fails.
 - **Test status:** Automated (tested via `bot-crossing/test/task-board.test.mjs`).
+
+---
+
+## 4. Colony Sound System (Music) Package
+- **KPF ID:** `KPF-BCP-004`
+- **Description:** Standalone plugin package (`@beercanlabs/bot-crossing-music`) rendering a 3D power antenna speaker tower behind the spaceship, dual-mode 3D spatial/ambient audio routing, local classic game chiptunes (< 2m duration shuffle), and a Spotify embed player in a dismissible left HUD drawer.
+- **Entry points:**
+  - Package: `packages/music/index.js`, `packages/music/server/middleware.js`, `packages/music/client/index.js`, `packages/music/client/tower.js`, `packages/music/client/audio-engine.js`, `packages/music/client/classic-synth.js`, `packages/music/client/drawer.js`
+- **If it silently breaks:** Sound tower fails to render, Web Audio fails to initialize, or left drawer UI becomes unresponsive.
+- **Test status:** Automated (tested via `test/music.test.mjs`).
+
